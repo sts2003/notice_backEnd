@@ -1,0 +1,10 @@
+type Query {
+  getAllNotices: [Notice!]!
+}
+
+type Mutation {
+  createNotice(userId: String!, title: String!, description: String!): Boolean!
+
+  deleteNotice(id: String!): Boolean!
+  updateNotice(id: String!, description: String!): Boolean!
+}
