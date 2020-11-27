@@ -1,5 +1,7 @@
 type Query {
   getAllNotices: [Notice!]!
+
+  getNoticeBoardTotalPage(searchValue: String!, limit: Int!): Int!
 }
 
 type Mutation {

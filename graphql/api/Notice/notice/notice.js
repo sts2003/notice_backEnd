@@ -14,17 +14,42 @@ export default {
         return [];
       }
     },
+
+    getNoticeBoardTotalPage: async (_, args) => {
+      const { searchValue, limit } = args;
+
+      try {
+        const result = await Notice.find({
+          title: { $regex: `.*${searchValue}.*` },
+        }).sort({
+          createdAt: -1,
+        });
+
+        const cnt = result.length;
+
+        const realTotalPage = cnt % limit > 0 ? cnt / limit + 1 : cnt / limit;
+
+        return parseInt(realTotalPage);
+      } catch (e) {
+        console.log(e);
+        return 0;
+      }
+    },
   },
 
   Mutation: {
     createNotice: async (_, args) => {
       const { title, description, userId } = args;
+
       try {
+        const current = await CURRENT_TIME();
+
         const newUserId = mongoose.Types.ObjectId(userId);
+
         const result = await Notice.create({
           title,
           description,
-          createdAt: new Date().toString(),
+          createdAt: current,
           author: newUserId,
           isDelete: false,
         });
