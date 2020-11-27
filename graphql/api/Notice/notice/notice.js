@@ -6,10 +6,7 @@ export default {
   Query: {
     getAllNotices: async (_, args) => {
       try {
-        const result = await Notice.find({}, {}).populate({
-          path: `author`,
-          model: User,
-        });
+        const result = await Notice.find({}, {});
 
         return result;
       } catch (e) {
