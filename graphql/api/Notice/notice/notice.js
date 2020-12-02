@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Notice from "../../../model/Notice";
 import User from "../../../model/User";
-
+import { CURRENT_TIME } from "../../../../src/utils/commonUtils";
 export default {
   Query: {
     getAllNotices: async (_, args) => {
@@ -9,6 +9,17 @@ export default {
         const result = await Notice.find({}, {});
 
         return result;
+      } catch (e) {
+        console.log(e);
+        return [];
+      }
+    },
+
+    getNoticeDetail: async (_, args) => {
+      try {
+        const detailDatum = await Notice.find({}, {});
+
+        return detailDatum;
       } catch (e) {
         console.log(e);
         return [];

@@ -1,6 +1,7 @@
 type Query {
   getAllNotices: [Notice!]!
 
+  getNoticeDetail: [Notice!]!
   getNoticeBoardTotalPage(searchValue: String!, limit: Int!): Int!
 }
 
