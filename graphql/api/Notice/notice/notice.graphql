@@ -1,8 +1,14 @@
 type Query {
-  getAllNotices: [Notice!]!
+  getAllNotices(
+    searchValue: String!
+    limit: Int!
+    currentPage: Int!
+  ): [Notice!]!
 
-  getNoticeDetail: [Notice!]!
+  getNoticeDetail(id: String!): Notice!
   getNoticeBoardTotalPage(searchValue: String!, limit: Int!): Int!
+  getNoticeBoardNextId(id: String!): Notice
+  getNoticeBoardBeforeId(id: String!): Notice
 }
 
 type Mutation {

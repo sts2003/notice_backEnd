@@ -5,8 +5,22 @@ import { CURRENT_TIME } from "../../../../src/utils/commonUtils";
 export default {
   Query: {
     getAllNotices: async (_, args) => {
+      const { searchValue, limit, currentPage } = args;
       try {
-        const result = await Notice.find({}, {});
+        const result = await Notice.find(
+          {
+            $or: [
+              { title: { $regex: `.*${searchValue}.*` } },
+              { description: { $regex: `.*${searchValue}.*` } },
+            ],
+          },
+          {}
+        )
+          .sort({
+            createdAt: -1,
+          })
+          .limit(limit)
+          .skip(currentPage * limit);
 
         return result;
       } catch (e) {
@@ -16,13 +30,15 @@ export default {
     },
 
     getNoticeDetail: async (_, args) => {
+      const { id } = args;
+      console.log(id);
       try {
-        const detailDatum = await Notice.find({}, {});
+        const detailDatum = await Notice.findOne({ _id: id });
 
         return detailDatum;
       } catch (e) {
         console.log(e);
-        return [];
+        return {};
       }
     },
 
@@ -44,6 +60,45 @@ export default {
       } catch (e) {
         console.log(e);
         return 0;
+      }
+    },
+    getNoticeBoardNextId: async (_, args) => {
+      const { id } = args;
+      console.log(id);
+
+      try {
+        const result = await Notice.findOne({
+          _id: { $lt: id },
+        })
+          .sort({
+            createdAt: -1,
+          })
+          .limit(1);
+
+        return result;
+      } catch (e) {
+        console.log(e);
+        return {};
+      }
+    },
+
+    getNoticeBoardBeforeId: async (_, args) => {
+      const { id } = args;
+      console.log(id);
+
+      try {
+        const result = await Notice.findOne({
+          _id: { $gt: id },
+        })
+          .sort({
+            createdAt: 1,
+          })
+          .limit(1);
+
+        return result;
+      } catch (e) {
+        console.log(e);
+        return {};
       }
     },
   },
