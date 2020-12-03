@@ -9,6 +9,7 @@ type Query {
   getNoticeBoardTotalPage(searchValue: String!, limit: Int!): Int!
   getNoticeBoardNextId(id: String!): Notice
   getNoticeBoardBeforeId(id: String!): Notice
+  getNoticeBoardTotalPageOnlyCnt(searchValue: String!, limit: Int!): Int!
 }
 
 type Mutation {

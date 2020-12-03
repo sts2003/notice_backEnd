@@ -102,6 +102,24 @@ export default {
         return {};
       }
     },
+    getNoticeBoardTotalPageOnlyCnt: async (_, args) => {
+      const { searchValue, limit } = args;
+
+      try {
+        const result = await Notice.find({
+          title: { $regex: `.*${searchValue}.*` },
+        }).sort({
+          createdAt: -1,
+        });
+
+        const cnt = result.length;
+        console.log(result);
+        return parseInt(cnt);
+      } catch (e) {
+        console.log(e);
+        return 0;
+      }
+    },
   },
 
   Mutation: {
