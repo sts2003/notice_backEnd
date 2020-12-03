@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Notice from "../../../model/Notice";
 import User from "../../../model/User";
 import { CURRENT_TIME } from "../../../../src/utils/commonUtils";
+
 export default {
   Query: {
     getAllNotices: async (_, args) => {
@@ -134,11 +135,29 @@ export default {
       }
     },
 
-    deleteNotice: async (_, args) => {
-      try {
-        const { id } = args;
+    deleteNoticeBoard: async (_, args) => {
+      const { id } = args;
 
+      try {
         const result = await Notice.deleteOne({ _id: id });
+
+        return true;
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
+    },
+
+    deleteNotice: async (_, args) => {
+      const { id } = args;
+
+      try {
+        const current = await CURRENT_TIME();
+
+        const result = await Notice.updateOne(
+          { _id: id },
+          { isDelete: true, deletedAt: current }
+        );
 
         return true;
       } catch (e) {
