@@ -135,8 +135,10 @@ export default {
       }
     },
 
-    deleteNoticeBoard: async (_, args) => {
+    deleteNotice: async (_, args) => {
       const { id } = args;
+
+      console.log(id);
 
       try {
         const result = await Notice.deleteOne({ _id: id });
@@ -148,32 +150,15 @@ export default {
       }
     },
 
-    deleteNotice: async (_, args) => {
-      const { id } = args;
-
-      try {
-        const current = await CURRENT_TIME();
-
-        const result = await Notice.updateOne(
-          { _id: id },
-          { isDelete: true, deletedAt: current }
-        );
-
-        return true;
-      } catch (e) {
-        console.log(e);
-        return false;
-      }
-    },
-
     updateNotice: async (_, args) => {
       try {
-        const { id, description } = args;
+        const { id, title, description } = args;
 
         const result = await Notice.updateOne(
           { _id: id },
           {
             $set: {
+              title,
               description,
             },
           }

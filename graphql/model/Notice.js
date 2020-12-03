@@ -19,16 +19,6 @@ const Notice = new Schema(
       required: true,
     },
 
-    isDelete: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-
-    deletedAt: {
-      type: String,
-    },
-
     author: [
       {
         type: mongoose.Schema.Types.ObjectId,
